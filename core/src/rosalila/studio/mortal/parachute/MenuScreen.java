@@ -5,6 +5,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
  * Created by turupawn on 7/9/15.
@@ -12,13 +17,28 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MenuScreen implements Screen {
 
     SpriteBatch batch;
-    Texture img;
+    Texture background;
+
+    Stage stage;
 
     @Override
     public void show() {
-        System.out.println("Show");
         batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
+        background = new Texture("menu.png");
+
+        stage = new Stage();
+        Image button = new Image(new Texture("button.png"));
+        button.addListener(new ClickListener()
+        {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+                Global.game.setScreen(Global.game_screen);
+                return true;
+            }
+        });
+        stage.addActor(button);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -26,9 +46,10 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(img, 0, 0);
+        batch.draw(background, 0, 0);
         batch.end();
-        System.out.println("Render");
+        stage.draw();
+        stage.act();
     }
 
     @Override

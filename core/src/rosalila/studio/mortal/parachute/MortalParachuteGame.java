@@ -13,13 +13,14 @@ public class MortalParachuteGame extends Game {
 	@Override
 	public void create () {
 		MenuScreen menu=new MenuScreen();
-        menu.show();
-        menu.render(1);
+        setScreen(menu);
+        Global.game=this;
+        Global.menu_screen=new MenuScreen();
+        Global.game_screen=new GameScreen();
 	}
 
 	@Override
 	public void render () {
         super.render();
-        System.out.println("RenderGame");
 	}
 }
